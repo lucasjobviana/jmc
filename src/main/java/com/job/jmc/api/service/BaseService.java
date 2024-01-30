@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class BaseService<T> {
+public abstract class BaseService<T> {
   private final JpaRepository<T,Long> jpaRepository;
   @Autowired
   public BaseService(JpaRepository<T, Long> jpaRepository){

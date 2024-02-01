@@ -9,7 +9,7 @@ public abstract class BaseController<T, ID> {
   @Autowired
   private BaseService<T, ID> service;
 
-  @GetMapping("/listar")
+  @GetMapping
   public List<T> getAll() {
     return this.service.getAll();
   }

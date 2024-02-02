@@ -38,18 +38,17 @@ public abstract class BaseController<T extends BaseDbEntity<ID>, ID> {
   }
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<String> delete(@PathVariable ID id) {
+    this.service.delete(id);
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(String.format("%s com id %s deletado com sucesso",getEntityClassName(),id));
   }
-
   @PutMapping(value = "/{id}")
   public ResponseEntity<T> save(@PathVariable ID id, @RequestBody T entity) {
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(this.service.update(id, entity));
   }
-
   // Método para obter o nome da classe genérica
   private String getEntityClassName() {
     ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();

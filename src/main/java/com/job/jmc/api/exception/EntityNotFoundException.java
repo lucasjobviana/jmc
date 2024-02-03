@@ -5,6 +5,6 @@ public class EntityNotFoundException extends RuntimeException{
     super(msgError);
   }
   public <T> EntityNotFoundException(Class<T> entityClass, Object entityId) {
-    super(String.format("Entidade %s com ID %s não encontrada", entityClass.getSimpleName(), entityId));
+    super(String.format("Entidade (%s) com ID %s não encontrada", entityClass.getSimpleName(), entityId));
   }
 }

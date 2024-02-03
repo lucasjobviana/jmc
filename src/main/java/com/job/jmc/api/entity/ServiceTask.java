@@ -1,12 +1,13 @@
 package com.job.jmc.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.job.jmc.api.controller.dto.ServiceTaskDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import java.util.List;
 
 @Entity
-public class ServiceTask extends  BaseDbEntity<Long> {
+public class ServiceTask extends  BaseDbEntity<Long, ServiceTaskDto> {
   private String name;
   private String description;
 
@@ -28,5 +29,10 @@ public class ServiceTask extends  BaseDbEntity<Long> {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public ServiceTaskDto toDto() {
+    return new ServiceTaskDto(this.getId(), this.getName());
   }
 }

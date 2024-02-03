@@ -1,5 +1,6 @@
 package com.job.jmc.api.entity;
 
+import com.job.jmc.api.controller.dto.MaintenanceDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -10,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
-public class Maintenance extends  BaseDbEntity<Long> {
+public class Maintenance extends  BaseDbEntity<Long, MaintenanceDto> {
  private String description;
  @ManyToOne
  @JoinColumn(name = "workshop_id")
@@ -57,5 +58,9 @@ public class Maintenance extends  BaseDbEntity<Long> {
   }
   public void setServiceTasks(List<ServiceTask> serviceTasks) {
     this.serviceTasks = serviceTasks;
+  }
+  @Override
+  public MaintenanceDto toDto() {
+    return new MaintenanceDto(this.getId());
   }
 }

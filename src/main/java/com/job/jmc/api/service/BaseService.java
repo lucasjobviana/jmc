@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseService<T extends BaseDbEntity<ID>, ID> {
+public abstract class BaseService<T extends BaseDbEntity<ID,DTO>, ID, DTO> {
   @Autowired
   protected BaseRepository<T, ID> repository;
   public List<T> getAll() { return this.repository.findAll(); }

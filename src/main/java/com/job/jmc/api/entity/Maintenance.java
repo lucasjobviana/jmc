@@ -13,15 +13,18 @@ public class Maintenance extends  BaseDbEntity<Long> {
  @ManyToOne
  @JoinColumn(name = "workshop_id")
  private Workshop workshop;
-// private Vehicle vehicle;
+ @ManyToOne
+ @JoinColumn(name = "vehicle_id")
+ private Vehicle vehicle;
 
   public Maintenance() {
   }
 
   @Autowired
-  public Maintenance(String description, Workshop workshop) {
+  public Maintenance(String description, Workshop workshop, Vehicle vehicle) {
     this.description = description;
     this.workshop = workshop;
+    this.vehicle = vehicle;
   }
 
   public String getDescription() {
@@ -38,5 +41,13 @@ public class Maintenance extends  BaseDbEntity<Long> {
 
   public void setWorkshop(Workshop workshop) {
     this.workshop = workshop;
+  }
+
+  public Vehicle getVehicle() {
+    return vehicle;
+  }
+
+  public void setVehicle(Vehicle vehicle) {
+    this.vehicle = vehicle;
   }
 }

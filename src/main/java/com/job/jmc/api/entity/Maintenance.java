@@ -61,6 +61,6 @@ public class Maintenance extends  BaseDbEntity<Long, MaintenanceDto> {
   }
   @Override
   public MaintenanceDto toDto() {
-    return new MaintenanceDto(this.getId());
+    return new MaintenanceDto(this.getId(), this.getVehicle());
   }
 }

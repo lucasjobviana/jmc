@@ -1,10 +1,11 @@
 package com.job.jmc.api.controller;
 
+import com.job.jmc.api.interfaces.ConvertableToEntity;
 import com.job.jmc.api.entity.BaseDbEntity;
 import com.job.jmc.api.service.BaseService;
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,41 +16,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class BaseController<T extends BaseDbEntity<ID,DTO>, ID, DTO> {
+public abstract class BaseController<T extends BaseDbEntity<ID,DTO>, ID, DTO extends
+    ConvertableToEntity<T>> {
   @Autowired
   private BaseService<T, ID, DTO> service;
   @GetMapping
-  public ResponseEntity<List<T>> getAll() {
+  public ResponseEntity<List<DTO>> getAll() {
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(this.service.getAll());
+        .body(
+            this.service.getAll().stream().map(BaseDbEntity::toDto).collect(Collectors.toList())
+        );
   }
   @GetMapping(value = "/{id}")
   public ResponseEntity<DTO> getById(@PathVariable ID id) {
-    T entity = this.service.getById(id);
-
     return (ResponseEntity<DTO>) ResponseEntity
         .status(HttpStatus.OK)
-        .body(entity.toDto());
+        .body(this.service.getById(id).toDto());
   }
   @PostMapping
-  public ResponseEntity<T> save(@RequestBody T entity) {
+  public ResponseEntity<DTO> save(@RequestBody DTO dto) {
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(this.service.save(entity));
+        .body(this.service.save(dto.toEntity()).toDto());
   }
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<String> delete(@PathVariable ID id) {
     this.service.delete(id);
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(String.format("%s com id %s deletado com sucesso",getEntityClassName(),id));
+        .body(String.format("%s com id %s deletado com sucesso", getEntityClassName(),id));
   }
   @PutMapping(value = "/{id}")
-  public ResponseEntity<T> save(@PathVariable ID id, @RequestBody T entity) {
+  public ResponseEntity<DTO> save(@PathVariable ID id, @RequestBody DTO dto) {
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(this.service.update(id, entity));
+        .body(this.service.update(id, dto.toEntity()).toDto());
   }
   // Método para obter o nome da classe genérica
   private String getEntityClassName() {

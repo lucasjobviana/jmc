@@ -1,11 +1,11 @@
 package com.job.jmc.api.controller.dto;
 
 import com.job.jmc.api.entity.ServiceTask;
-import com.job.jmc.api.entity.Vehicle;
-import com.job.jmc.api.entity.Workshop;
+import com.job.jmc.api.interfaces.ConvertableToEntity;
 
-public record ServiceTaskDto(Long id, String name) {
-  public ServiceTask toServiceTask() {
+public record ServiceTaskDto(Long id, String name)implements ConvertableToEntity<ServiceTask> {
+  @Override
+  public ServiceTask toEntity() {
     ServiceTask serviceTask = new ServiceTask();
     serviceTask.setId(id);
     serviceTask.setName(name);

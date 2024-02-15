@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  * Extends the generic BaseController to leverage common CRUD operations.
  *
  * @see BaseController
- * @param <T>  The entity type (Maintenance) extending BaseDbEntity.
- * @param <ID> The identifier type (Long) for the entity.
- * @param <DTO> The DTO type (MaintenanceDto) implementing ConvertableToEntity.
  */
 @RestController
 @RequestMapping(value = "/maintenances")

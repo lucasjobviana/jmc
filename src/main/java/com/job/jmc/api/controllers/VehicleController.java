@@ -5,7 +5,10 @@ import com.job.jmc.api.entities.Vehicle;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 /**
- * The type Vehicle controller.
+ * A controller handling HTTP requests related to Vehicle entities.
+ * Extends the generic BaseController to leverage common CRUD operations.
+ *
+ * @see BaseController
  */
 @RestController
 @RequestMapping(value = "/vehicles")

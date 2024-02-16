@@ -1,0 +1,43 @@
+services:
+
+  api:
+      container_name: jmc-api
+      build: ./spring-api
+      ports:
+        - 8080:8080
+      working_dir: /jmc-api
+      # Caso queira que o container esteja atualizado durante o desenvolvimento, sem que você precise ficar fazendo down e up dos containers, descomente as 3 linhas abaixo
+      # command: dev
+      volumes:
+        - ./spring-api/src:/jmc-api/src
+      # depends_on:
+      #   mysql:
+      #     condition: service_healthy
+      environment:
+        - APP_PORT=8080
+        - JWT_SECRET=jwt_secret
+        # Os dados abaixo se referem ao container `db`
+        # Dica: Relembre aqui da comunicação interna entre containers
+        - DB_USER=root
+        - DB_PASS=root
+        - DB_HOST=mysql
+        - DB_PORT=3306
+      healthcheck:
+        test: ["CMD", "lsof", "-t", "-i:8080"] # Caso utilize outra porta interna para o back, altere ela aqui também
+        timeout: 10s
+        retries: 5
+      restart: on-failure
+
+#   mysql:
+#     image: mysql:8.0.32
+#     container_name: jmc-mysql
+#     restart: always
+#     healthcheck:
+#       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"] # Deve aguardar o banco ficar operacional
+#       timeout: 10s
+#       retries: 5
+#     ports:
+#       - 3306:3306
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+

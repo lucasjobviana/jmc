@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DefaultController {
   @GetMapping
   public ResponseEntity<String> defaultRoute() {
-    return ResponseEntity.status(HttpStatus.OK).body("Bem-vindo à jmc!");
+    return ResponseEntity.status(HttpStatus.OK).body("Bem-vindix à jmc!");
   }
 }

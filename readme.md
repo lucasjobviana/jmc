@@ -1,6 +1,6 @@
 # JMC - Maintenance Controller
 
-O JMC (J Maintenance Controller) é um projeto de gerenciamento de manutenção de frotas, projetado para facilitar o controle das manutenções da frota da uma transportadora.
+O JMC (J Maintenance Controller) é um projeto de gerenciamento de manutenção de frotas, projetado para facilitar o controle das manutenções da frota de uma transportadora.
 
 ## Índice
 

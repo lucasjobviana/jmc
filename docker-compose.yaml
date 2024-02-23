@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: mysql:8.0.32
+    container_name: jmc-mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"] # Deve aguardar o banco ficar operacional
+      timeout: 10s
+      retries: 5
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jmcdb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      [
+        "--init-file",
+        "/docker-entrypoint-initdb.d/init.sql"
+      ]
+    networks:
+      - jmc_default
+  api:
+      container_name: jmc-api
+      build: ./spring-api
+      ports:
+        - 8080:8080
+      working_dir: /jmc-api
+      volumes:
+        - ./spring-api/target:/jmc-api/target
+      depends_on:
+         mysql:
+           condition: service_healthy
+      environment:
+        - APP_PORT=8080
+        - JWT_SECRET=jwt_secret
+        - DB_USER=root
+        - DB_PASS=root
+        - DB_HOST=mysql
+        - DB_PORT=3306
+      healthcheck:
+        test: ["CMD", "lsof", "-t", "-i:8080"]
+        timeout: 10s
+        retries: 5
+      restart: on-failure
+      networks:
+        - jmc_default
+
+networks:
+  jmc_default:
+    driver: bridge

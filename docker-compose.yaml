@@ -27,8 +27,6 @@ services:
       ports:
         - 8080:8080
       working_dir: /jmc-api
-      # Caso queira que o container esteja atualizado durante o desenvolvimento, sem que você precise ficar fazendo down e up dos containers, descomente as 3 linhas abaixo
-#       command: dev
       volumes:
         - ./spring-api/target:/jmc-api/target
       depends_on:
@@ -37,26 +35,18 @@ services:
       environment:
         - APP_PORT=8080
         - JWT_SECRET=jwt_secret
-        # Os dados abaixo se referem ao container `db`
-        # Dica: Relembre aqui da comunicação interna entre containers
         - DB_USER=root
         - DB_PASS=root
         - DB_HOST=mysql
         - DB_PORT=3306
       healthcheck:
-        test: ["CMD", "lsof", "-t", "-i:8080"] # Caso utilize outra porta interna para o back, altere ela aqui também
+        test: ["CMD", "lsof", "-t", "-i:8080"]
         timeout: 10s
         retries: 5
       restart: on-failure
       networks:
         - jmc_default
 
-# Lista de redes que os containeres irão utilizar
 networks:
-  # Cria rede com nome `blogs_api_net`
   jmc_default:
-    # Define o `driver` como `bridge`, que é o driver padrão do docker
     driver: bridge
-
-
-
